@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS monitored_endpoints (
     id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    active          BOOLEAN     NOT NULL DEFAULT true,
     url             TEXT        NOT NULL,
     frequency       VARCHAR(20) NOT NULL CHECK (frequency IN ('DAILY', 'HOURLY', 'EVERY_15_MINUTES')),
     expected_status_code INTEGER NOT NULL,
