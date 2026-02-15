@@ -45,7 +45,6 @@ class MonitoredEndpointsDaoImpl(
      *
      * @param monitoredEndpointRequest MonitoredEndpoint info to store
      * @return result of insertion
-     * extra comment
      */
     override suspend fun insert(
         monitoredEndpointRequest: MonitoredEndpointRequest,
