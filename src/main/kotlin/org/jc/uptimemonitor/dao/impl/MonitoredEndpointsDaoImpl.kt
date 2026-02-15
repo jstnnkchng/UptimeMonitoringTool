@@ -45,6 +45,7 @@ class MonitoredEndpointsDaoImpl(
      *
      * @param monitoredEndpointRequest MonitoredEndpoint info to store
      * @return result of insertion
+     * extra comment
      */
     override suspend fun insert(
         monitoredEndpointRequest: MonitoredEndpointRequest,
@@ -54,7 +55,7 @@ class MonitoredEndpointsDaoImpl(
         logger.info(INSERT_OP)
 
         val namedParameters = MapSqlParameterSource()
-            addValue("email", monitoredEndpointRequest.email)
+            .addValue("email", monitoredEndpointRequest.email)
             .addValue("expected_response", monitoredEndpointRequest.expectedResponse)
             .addValue("expected_status_code", monitoredEndpointRequest.expectedStatusCode)
             .addValue("frequency", monitoredEndpointRequest.frequency)
