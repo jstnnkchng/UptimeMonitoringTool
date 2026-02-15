@@ -2,6 +2,12 @@
 
 A REST API service that allows users to register endpoints for uptime monitoring. Users provide a URL, expected response criteria, and a check frequency — the system will periodically verify endpoint health and notify users via email when checks fail.
 
+## Future Work:
+- REST API for Endpoint Registration
+- Health Check Scheduler 
+- Email Notifications
+- Check History & Observability
+
 ## Tech Stack
 
 - **Language:** Kotlin 2.1
