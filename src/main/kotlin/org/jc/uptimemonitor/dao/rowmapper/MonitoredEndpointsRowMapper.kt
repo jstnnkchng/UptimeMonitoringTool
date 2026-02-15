@@ -5,6 +5,7 @@ import org.jc.uptimemonitor.model.MonitoredEndpoint
 import org.springframework.jdbc.core.RowMapper
 import java.sql.ResultSet
 
+/** RowMapper for monitored_endpoints table */
 class MonitoredEndpointsRowMapper : RowMapper<MonitoredEndpoint> {
     override fun mapRow(rs: ResultSet, rowNum: Int): MonitoredEndpoint {
         return MonitoredEndpoint(

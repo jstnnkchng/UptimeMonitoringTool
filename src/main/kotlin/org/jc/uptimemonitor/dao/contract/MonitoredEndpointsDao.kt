@@ -2,6 +2,7 @@ package org.jc.uptimemonitor.dao.contract
 
 import org.jc.uptimemonitor.enums.Frequency
 import org.jc.uptimemonitor.model.MonitoredEndpoint
+import org.jc.uptimemonitor.model.MonitoredEndpointRequest
 
 /** DAO Contracts for monitored_endpoints table */
 interface MonitoredEndpointsDao {
@@ -13,7 +14,7 @@ interface MonitoredEndpointsDao {
      * @return result of insertion
      */
     suspend fun insert(
-        monitoredEndpointRequest: MonitoredEndpoint
+        monitoredEndpointRequest: MonitoredEndpointRequest
     ): Boolean
 
     /**

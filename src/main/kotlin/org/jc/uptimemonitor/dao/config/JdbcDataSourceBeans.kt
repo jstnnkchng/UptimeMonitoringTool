@@ -10,7 +10,7 @@ import javax.sql.DataSource
 @Configuration
 class JdbcDataSourceBeans {
     @Bean
-    open fun postgresDataSource(env: Environment): DataSource {
+    fun postgresDataSource(env: Environment): DataSource {
         val dataSource = DriverManagerDataSource()
         dataSource.setDriverClassName(env.getRequiredProperty("spring.datasource.driver-class-name"))
         dataSource.setUrl(env.getRequiredProperty("spring.datasource.url"))
@@ -20,7 +20,7 @@ class JdbcDataSourceBeans {
     }
 
     @Bean
-    open fun jdbcTemplatePostgres(postgresDataSource: DataSource): NamedParameterJdbcTemplate {
+    fun jdbcTemplatePostgres(postgresDataSource: DataSource): NamedParameterJdbcTemplate {
         return NamedParameterJdbcTemplate(postgresDataSource)
     }
 }

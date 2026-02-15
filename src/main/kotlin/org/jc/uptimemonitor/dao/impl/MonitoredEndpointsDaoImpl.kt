@@ -5,6 +5,7 @@ import kotlinx.coroutines.withContext
 import org.jc.uptimemonitor.dao.contract.MonitoredEndpointsDao
 import org.jc.uptimemonitor.enums.Frequency
 import org.jc.uptimemonitor.model.MonitoredEndpoint
+import org.jc.uptimemonitor.model.MonitoredEndpointRequest
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
@@ -18,14 +19,12 @@ class MonitoredEndpointsDaoImpl(
     private val logger = LoggerFactory.getLogger(MonitoredEndpointsDaoImpl::class.java)
 
     companion object {
-        private val INSERT_OP = "INSERT_OP"
-        private val GET_BY_FREQUENCY = "GET_BY_FREQUENCY"
+        const val INSERT_OP = "INSERT_OP"
+        const val GET_BY_FREQUENCY = "GET_BY_FREQUENCY"
     }
 
     private val INSERTSQL = """
         INSERT INTO monitored_endpoints (
-        active,
-        created_at,
         email,
         expected_response,
         expected_status_code,
@@ -33,10 +32,9 @@ class MonitoredEndpointsDaoImpl(
         url,
         user_id)
         VALUES (
-        :active,
-        :created_at,
         :email,
         :expected_response,
+        :expected_status_code,
         :frequency,
         :url,
         :user_id)
@@ -49,17 +47,16 @@ class MonitoredEndpointsDaoImpl(
      * @return result of insertion
      */
     override suspend fun insert(
-        monitoredEndpointRequest: MonitoredEndpoint
+        monitoredEndpointRequest: MonitoredEndpointRequest,
     ): Boolean =
         withContext(Dispatchers.IO) {
 
         logger.info(INSERT_OP)
 
         val namedParameters = MapSqlParameterSource()
-            .addValue("active", monitoredEndpointRequest.active)
-            .addValue("created_at", monitoredEndpointRequest.createdAt)
             .addValue("email", monitoredEndpointRequest.email)
             .addValue("expected_response", monitoredEndpointRequest.expectedResponse)
+            .addValue("expected_status_code", monitoredEndpointRequest.expectedStatusCode)
             .addValue("frequency", monitoredEndpointRequest.frequency)
             .addValue("url", monitoredEndpointRequest.url)
             .addValue("user_id", monitoredEndpointRequest.userId)

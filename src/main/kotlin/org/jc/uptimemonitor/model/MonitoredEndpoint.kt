@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import org.jc.uptimemonitor.enums.Frequency
 import java.time.LocalDateTime
 
+/** POJO for monitored endpoint data */
 data class MonitoredEndpoint(
     val active: Boolean,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
