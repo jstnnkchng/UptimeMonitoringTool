@@ -3,7 +3,6 @@
 A REST API service that allows users to register endpoints for uptime monitoring. Users provide a URL, expected response criteria, and a check frequency — the system will periodically verify endpoint health and notify users via email when checks fail.
 
 ## Future Work:
-- REST API for Endpoint Registration
 - Health Check Scheduler 
 - Email Notifications
 - Check History & Observability
@@ -87,6 +86,20 @@ Swagger UI is available at: http://localhost:8080/swagger-ui/index.html
 ```
 
 **Frequency values:** `DAILY`, `HOURLY`, `EVERY_15_MINUTES`
+
+### Search endpoints by User Id
+
+`GET /api/v1/monitorEndpoints/{userId}`
+
+**Path Variable:**
+`user-1`
+
+### Delete endpoint by Endpoint Id
+
+`DELETE /api/v1/monitorEndpoints/{endpointId}`
+
+**Path Variable:**
+`2`
 
 ## Running Tests
 
