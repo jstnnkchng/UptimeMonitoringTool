@@ -71,6 +71,7 @@ class MonitoredEndpointDaoImplTest {
         active = true,
         createdAt = LocalDateTime.of(2026, 1, 1, 0, 0),
         email = "user@example.com",
+        endpointId = 12345,
         expectedResponse = null,
         expectedStatusCode = 200,
         frequency = Frequency.DAILY,
