@@ -6,6 +6,7 @@ import org.jc.uptimemonitor.enums.Frequency
 import org.jc.uptimemonitor.model.MonitoredEndpoint
 import org.jc.uptimemonitor.model.MonitoredEndpointRequest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,6 +33,14 @@ class MonitoredEndpointDaoImplTest {
         SELECT * FROM monitored_endpoints
         WHERE frequency = :frequency
         AND active = :active
+    """.trimIndent()
+    private val getAllEndpointsByUserIdSql: String = """
+        SELECT * FROM monitored_endpoints
+        WHERE user_id = :user_id
+    """.trimIndent()
+    private val deleteByEndpointIdSql: String = """
+        DELETE FROM monitored_endpoints
+        WHERE id = :endpoint_id
     """.trimIndent()
     private val insertSql = """
         INSERT INTO monitored_endpoints (
@@ -126,5 +135,77 @@ class MonitoredEndpointDaoImplTest {
             dao.getAllEndpointsByFrequency(Frequency.EVERY_15_MINUTES)
         }
         verify(mockJdbcTemplate).query(eq(getAllEndpointsByFrequencySql), any<SqlParameterSource>(), eq(mockRowMapper))
+    }
+
+    // -- getAllEndpointsByUserId tests --
+
+    @Test
+    fun `getAllEndpointsByUserId returns list of endpoints`() = runTest {
+        val expected = listOf(testMonitoredEndpoint)
+
+        whenever(mockJdbcTemplate.query(eq(getAllEndpointsByUserIdSql), any<SqlParameterSource>(), eq(mockRowMapper)))
+            .thenReturn(expected)
+
+        val result = dao.getAllEndpointsByUserId("user-1")
+
+        assertEquals(expected, result)
+        verify(mockJdbcTemplate).query(eq(getAllEndpointsByUserIdSql), any<SqlParameterSource>(), eq(mockRowMapper))
+    }
+
+    @Test
+    fun `getAllEndpointsByUserId returns empty list when no endpoints found`() = runTest {
+        whenever(mockJdbcTemplate.query(eq(getAllEndpointsByUserIdSql), any<SqlParameterSource>(), eq(mockRowMapper)))
+            .thenReturn(emptyList())
+
+        val result = dao.getAllEndpointsByUserId("nonexistent-user")
+
+        assertEquals(emptyList<MonitoredEndpoint>(), result)
+        verify(mockJdbcTemplate).query(eq(getAllEndpointsByUserIdSql), any<SqlParameterSource>(), eq(mockRowMapper))
+    }
+
+    @Test
+    fun `getAllEndpointsByUserId throws when database fails`() = runTest {
+        whenever(mockJdbcTemplate.query(eq(getAllEndpointsByUserIdSql), any<SqlParameterSource>(), eq(mockRowMapper)))
+            .thenThrow(object : DataAccessException("DB connection refused") {})
+
+        assertThrows<DataAccessException> {
+            dao.getAllEndpointsByUserId("user-1")
+        }
+        verify(mockJdbcTemplate).query(eq(getAllEndpointsByUserIdSql), any<SqlParameterSource>(), eq(mockRowMapper))
+    }
+
+    // -- deleteByEndpointId tests --
+
+    @Test
+    fun `deleteByEndpointId returns true when row is deleted`() = runTest {
+        whenever(mockJdbcTemplate.update(eq(deleteByEndpointIdSql), any<SqlParameterSource>()))
+            .thenReturn(1)
+
+        val result = dao.deleteByEndpointId(1L)
+
+        assertTrue(result)
+        verify(mockJdbcTemplate).update(eq(deleteByEndpointIdSql), any<SqlParameterSource>())
+    }
+
+    @Test
+    fun `deleteByEndpointId returns false when no row found`() = runTest {
+        whenever(mockJdbcTemplate.update(eq(deleteByEndpointIdSql), any<SqlParameterSource>()))
+            .thenReturn(0)
+
+        val result = dao.deleteByEndpointId(999L)
+
+        assertFalse(result)
+        verify(mockJdbcTemplate).update(eq(deleteByEndpointIdSql), any<SqlParameterSource>())
+    }
+
+    @Test
+    fun `deleteByEndpointId throws when database fails`() = runTest {
+        whenever(mockJdbcTemplate.update(eq(deleteByEndpointIdSql), any<SqlParameterSource>()))
+            .thenThrow(object : DataAccessException("DB connection refused") {})
+
+        assertThrows<DataAccessException> {
+            dao.deleteByEndpointId(1L)
+        }
+        verify(mockJdbcTemplate).update(eq(deleteByEndpointIdSql), any<SqlParameterSource>())
     }
 }
