@@ -12,6 +12,7 @@ class MonitoredEndpointsRowMapper : RowMapper<MonitoredEndpoint> {
             active = rs.getBoolean("active"),
             createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
             email = rs.getString("email"),
+            endpointId = rs.getLong("id"),
             expectedResponse = rs.getString("expected_response"),
             expectedStatusCode = rs.getInt("expected_status_code"),
             frequency = Frequency.fromString(rs.getString("frequency")),
