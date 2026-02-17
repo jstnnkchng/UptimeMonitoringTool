@@ -10,6 +10,7 @@ data class MonitoredEndpoint(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val createdAt: LocalDateTime,
     val email: String,
+    val endpointId: Long,
     val expectedResponse: String?,
     val expectedStatusCode: Int,
     val frequency: Frequency,
