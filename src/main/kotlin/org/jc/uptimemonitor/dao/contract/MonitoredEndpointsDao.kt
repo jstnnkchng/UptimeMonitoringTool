@@ -26,4 +26,24 @@ interface MonitoredEndpointsDao {
     suspend fun getAllEndpointsByFrequency(
         frequency: Frequency
     ): List<MonitoredEndpoint>
+
+    /**
+     * Gets all MonitoredEndpoints for a given userId
+     *
+     * @param userId to search by
+     * @return List<MonitoredEndpoint>
+     */
+    suspend fun getAllEndpointsByUserId(
+        userId: String
+    ): List<MonitoredEndpoint>
+
+    /**
+     * Deletes a MonitoredEndpoint by a given endpoint id
+     *
+     * @param endpointId to search by
+     * @return result of delete
+     */
+    suspend fun deleteByEndpointId(
+        endpointId: Long
+    ): Boolean
 }
