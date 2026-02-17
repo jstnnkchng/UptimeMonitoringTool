@@ -8,9 +8,11 @@ import org.jc.uptimemonitor.model.MonitoredEndpoint
 import org.jc.uptimemonitor.model.MonitoredEndpointRequest
 import org.jc.uptimemonitor.service.UptimeMonitoringService
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -44,31 +46,31 @@ class UptimeMonitoringController(
         }
     }
 
-    @GetMapping
+    @GetMapping("/{userId}")
     fun searchByUserId(
-        @RequestParam userId: String
+        @PathVariable userId: String
     ): CompletableFuture<ResponseEntity<List<MonitoredEndpoint>>> {
 
-        logger.info("UptimeMonitoringController searching for user id $userId")
+        logger.info("UptimeMonitoringController searching for user id {}", userId)
 
         return CoroutineScope(CoroutineName("searchByUserId") + Dispatchers.Default).future {
             ResponseEntity.ok(uptimeMonitoringService.searchByUserId(userId))
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{endpointId}")
     fun deleteEndpointById(
-        @RequestParam endpointId: Long
+        @PathVariable endpointId: Long
     ): CompletableFuture<ResponseEntity<Map<String, String>>> {
 
-        logger.info("UptimeMonitoringController delete for endpoint id $endpointId")
+        logger.info("UptimeMonitoringController delete for endpoint id {}", endpointId)
 
         return CoroutineScope(CoroutineName("deleteEndpoint") + Dispatchers.Default).future {
             val deleted = uptimeMonitoringService.deleteByEndpointId(endpointId)
             if (deleted) {
                 ResponseEntity.ok(mapOf("message" to "Endpoint deleted successfully"))
             } else {
-                ResponseEntity.unprocessableEntity()
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(mapOf("message" to "Could not delete endpoint"))
             }
         }
