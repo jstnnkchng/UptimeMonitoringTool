@@ -14,6 +14,8 @@ data class MonitoredEndpoint(
     val expectedResponse: String?,
     val expectedStatusCode: Int,
     val frequency: Frequency,
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    val lastCheckedAt: LocalDateTime?,
     val url: String,
     val userId: String,
 )
