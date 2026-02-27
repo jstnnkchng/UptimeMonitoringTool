@@ -16,6 +16,7 @@ class MonitoredEndpointsRowMapper : RowMapper<MonitoredEndpoint> {
             expectedResponse = rs.getString("expected_response"),
             expectedStatusCode = rs.getInt("expected_status_code"),
             frequency = Frequency.fromString(rs.getString("frequency")),
+            lastCheckedAt = rs.getTimestamp("last_checked_at")?.toLocalDateTime(),
             url = rs.getString("url"),
             userId = rs.getString("user_id")
         )

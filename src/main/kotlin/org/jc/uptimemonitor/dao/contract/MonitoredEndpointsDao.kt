@@ -46,4 +46,24 @@ interface MonitoredEndpointsDao {
     suspend fun deleteByEndpointId(
         endpointId: Long
     ): Boolean
+
+    /**
+     * Gets all active endpoints due for a health check based on frequency
+     *
+     * @param frequency to filter by
+     * @return List<MonitoredEndpoint> due for checking
+     */
+    suspend fun getEndpointsDueForCheck(
+        frequency: Frequency
+    ): List<MonitoredEndpoint>
+
+    /**
+     * Updates the last_checked_at timestamp for an endpoint
+     *
+     * @param endpointId to update
+     * @return result of update
+     */
+    suspend fun updateLastCheckedAt(
+        endpointId: Long
+    ): Boolean
 }

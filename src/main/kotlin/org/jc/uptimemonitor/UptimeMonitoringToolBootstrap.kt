@@ -8,9 +8,11 @@ import org.springframework.boot.Banner
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.annotation.EnableScheduling
 
 @Configuration
 @EnableAutoConfiguration
+@EnableScheduling
 class UptimeMonitoringToolBootstrap {
     companion object {
         @JvmStatic

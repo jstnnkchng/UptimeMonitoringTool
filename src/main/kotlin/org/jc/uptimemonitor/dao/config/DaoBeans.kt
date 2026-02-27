@@ -1,6 +1,8 @@
 package org.jc.uptimemonitor.dao.config
 
+import org.jc.uptimemonitor.dao.contract.CheckResultsDao
 import org.jc.uptimemonitor.dao.contract.MonitoredEndpointsDao
+import org.jc.uptimemonitor.dao.impl.CheckResultsDaoImpl
 import org.jc.uptimemonitor.dao.impl.MonitoredEndpointsDaoImpl
 import org.jc.uptimemonitor.dao.rowmapper.MonitoredEndpointsRowMapper
 import org.jc.uptimemonitor.model.MonitoredEndpoint
@@ -24,4 +26,10 @@ class DaoBeans {
         monitoredEndpointsRowMapper: RowMapper<MonitoredEndpoint>
     ): MonitoredEndpointsDao =
         MonitoredEndpointsDaoImpl(jdbcTemplate, monitoredEndpointsRowMapper)
+
+    @Bean
+    fun checkResultsDao(
+        jdbcTemplate: NamedParameterJdbcTemplate,
+    ): CheckResultsDao =
+        CheckResultsDaoImpl(jdbcTemplate)
 }

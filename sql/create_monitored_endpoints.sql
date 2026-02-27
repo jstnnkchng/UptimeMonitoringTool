@@ -8,4 +8,5 @@ CREATE TABLE IF NOT EXISTS monitored_endpoints (
     email           VARCHAR(255) NOT NULL,
     user_id         VARCHAR(255) NOT NULL,
     created_at      TIMESTAMP   NOT NULL DEFAULT now()
+    last_checked_at TIMESTAMP
 );

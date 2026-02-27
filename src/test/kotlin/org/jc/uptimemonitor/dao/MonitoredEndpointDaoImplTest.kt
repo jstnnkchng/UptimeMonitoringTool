@@ -75,6 +75,7 @@ class MonitoredEndpointDaoImplTest {
         expectedResponse = null,
         expectedStatusCode = 200,
         frequency = Frequency.DAILY,
+        lastCheckedAt = null,
         url = "https://example.com/health",
         userId = "user-1"
     )
