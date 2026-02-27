@@ -18,7 +18,7 @@ class EndpointHealthCheckScheduler(
 ) {
     private val logger = LoggerFactory.getLogger(EndpointHealthCheckScheduler::class.java)
 
-    @Scheduled(fixedRate = 60_000)
+    @Scheduled(fixedRate = 900_000)
     fun runHealthChecks() {
         logger.info("Starting scheduled health check run")
 
