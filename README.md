@@ -3,7 +3,6 @@
 A REST API service that allows users to register endpoints for uptime monitoring. Users provide a URL, expected response criteria, and a check frequency — the system will periodically verify endpoint health and notify users via email when checks fail.
 
 ## Future Work:
-- Health Check Scheduler 
 - Email Notifications
 - Check History & Observability
 
